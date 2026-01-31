@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="/static/css/login.css">
+    </head>
+    <body>
+        <div class="container-login" id="containerLogin">
+            <form>
+                <h2>Login</h2>
+                <label for="email">Email</label>
+                <img  class="user"  src="/static/img/user.png" alt="">
+                <input type="text" id="email" name="email" required>
+
+                <label for="senha">Senha</label>
+                <img id="visivel" src="/static/img/visible.png" alt="">
+                <img id="escondido" src="/static/img/hidden.png" alt="" style="display: none;">
+                <input type="password" id="senha" name="senha" required>
+                <a href="#" id="linkEsqueceu">Esqueceu a senha?</a>
+                <button id="btnLogin" type="submit">Entrar</button>
+                <a href="#" id="linkCadastro" >Não possui uma conta? <span>Cadastre-se!</span></a>
+            </form>
+
+        </div>
+
+        <div class="container-cadastro" id="containerCadastro" style="display: none;">
+            <h2>Cadastrar</h2>
+            <form>
+                <label for="nome">Nome</label>
+                <img  class="user"  src="/static/img/user.png" alt="">
+                <input type="text" id="nome" name="nome" required>
+
+                <label for="email">Email</label>
+                <img  class="user"  src="/static/img/user.png" alt="">
+                <input type="text" id="email-cadastro" name="email" required>
+
+                <label for="senha">Senha</label>
+                <img id="visivel2" src="/static/img/visible.png" alt="">
+                <img id="escondido2" src="/static/img/hidden.png" alt="" style="display: none;">
+                <input type="password" id="senha-cadastro" name="senha" required>
+                <button id="btnCadastro" type="submit">Cadastrar</button>
+                <a href="#" id="linkVoltarCadastro" >Voltar</a>
+            </form>
+
+        </div>
+
+        <div class="container-esqueceu" id="containerEsqueceu" style="display: none;">
+
+            <form>
+                <h2>Recuperar senha</h2>
+                <label for="email">Email</label>
+                <img  class="user"  src="/static/img/user.png" alt="">
+                <input type="text" id="email-esqueceu" name="email" required>
+                <button id="btnEsqueceu" type="submit">Enviar link de
+                    recuperação</button>
+                <a href="#" id="linkVoltarEsqueceu">Voltar</a>
+            </form>
+
+        </div>
+
+        <script src="/static/js/login.js"></script>
+    </body>
+</html>
