@@ -14,6 +14,10 @@ from flask_login import login_user, login_required, current_user, logout_user
 def index():
     return render_template("login.html")
 
+# rota index, é a rota principal
+@app.route("/main")
+def main():
+    return render_template("index.html")
 
 # função de carregar os usuários logados
 @login_manager.user_loader
