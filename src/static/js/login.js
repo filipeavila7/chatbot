@@ -130,7 +130,7 @@ form.addEventListener("submit", async (evt) => {
                 setTimeout(() => {
                     messageDiv.style.display = "none";
                 }, 300);
-            }, 800);
+            }, 1000);
             return;
         }
 
@@ -149,7 +149,7 @@ form.addEventListener("submit", async (evt) => {
                 messageDiv.style.display = "none";
                 window.location.href = "/main";
             }, 300);
-        }, 800);
+        }, 1000);
 
 
         //catch para capturar erros e printar no console
