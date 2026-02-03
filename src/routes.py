@@ -148,8 +148,8 @@ def create_chat_route():
     if not user_id or not first_message:
         return jsonify({"error": "user_id e message são obrigatórios"}), 400
 
-    # 3️⃣ Gerar título do chat (primeira frase, até 60 caracteres)
-    title = first_message.strip().split("\n")[0][:60]
+    # 3️⃣ Gerar título do chat (primeira frase, até 20 caracteres)
+    title = first_message.strip().split("\n")[0][:20]
 
     # 4️⃣ Criar o chat no banco
     chat = new_chat(user_id=user_id, title=title)
@@ -218,3 +218,15 @@ def list_messages_route(chat_id):
         }
         for msg in messages
     ]), 200
+
+
+# rota que retorna o atual usuario logado
+@app.route("/user/me", methods=["GET"])
+@login_required
+def user_me():
+    return jsonify({
+        "id": current_user.id,
+        "name": current_user.name,
+        "email": current_user.email
+    })
+

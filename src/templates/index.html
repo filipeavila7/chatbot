@@ -13,7 +13,7 @@
     <nav class="nav-bar">
         <ul class="nav-links">
             <li>
-                <div class="acoes">
+                <div class="acoes" id="novo-chat-btn">
                     <img src="static/img/add-post.png" alt="">
                     <p>Novo chat</p>
                 </div>
@@ -49,58 +49,24 @@
 
 
     <section class="chat-sec">
-        <div class="bem-vindo">
-            <h1></h1>
+        <div class="bem-vindo" id="bem-vindo">
+            <h1 id="bem-vindo-texto" ></h1>
         </div>
 
         <div class="chat-mensagem">
-
-            <div class="msg-user">
-                <p>isso é uma mensagem de teste, para testar se o balao esta corrreto quando atingir o limite da linha</p>
-            </div>
-
-            <div class="msg-ia">
-                <p>Olá! Como posso te ajudar?</p>
-            </div>
-
-            <div class="msg-user">
-                <p>Ola</p>
-            </div>
-
-            <div class="msg-ia">
-                <p>Olá! Como posso te ajudar?</p>
-            </div>
-
-
-            <div class="msg-user">
-                <p>Ola</p>
-            </div>
-
-            <div class="msg-ia">
-                <p>Olá! Como posso te ajudar?</p>
-            </div>
-
-            <div class="msg-user">
-                <p>Ola</p>
-            </div>
-
-            <div class="msg-ia">
-                <p>Olá! Como posso te ajudarrterrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrreeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeerrrrrrtertm rter rit ri irierie tirirt?</p>
-            </div>
-
-
-            
-
-    
         </div>
 
-        
-            <div class="chat-input">
-                <textarea class="chat-textarea" name="message" rows="1" placeholder="Pergunte alguma coisa"></textarea>
-                <button type="submit">
-                    <img src="static/img/arrow.png" alt="">
-                </button>
+        <div class="chat-input">
+                <form class="chat-form" id="ChatForm">
+                    <textarea class="chat-textarea" id="message" name="message" rows="1" placeholder="Pergunte alguma coisa"></textarea>
+                    <button type="submit">
+                        <img src="static/img/arrow.png" alt="">
+                    </button>
+                </form>
             </div>
+
+        
+            
         
     </section>
     
