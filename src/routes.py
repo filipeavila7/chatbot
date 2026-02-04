@@ -3,7 +3,7 @@ from src import app
 from src.service.messages_service import new_message, list_last_messages, list_messages_by_chat
 from src.service.ai_service import generate_response
 from src.service.user_service import create_user, list_user, list_user_email, get_user_by_id
-from src.service.chat_service import new_chat, get_chat_by_id, list_chats_by_user, get_chat_by_id_and_user
+from src.service.chat_service import new_chat, get_chat_by_id, list_chats_by_user, get_chat_by_id_and_user ,delete_chat_by_id_and_user,gerar_titulo
 from src import login_manager
 from flask_login import login_user, login_required, current_user, logout_user
 
@@ -149,7 +149,7 @@ def create_chat_route():
         return jsonify({"error": "user_id e message são obrigatórios"}), 400
 
     # 3️⃣ Gerar título do chat (primeira frase, até 20 caracteres)
-    title = first_message.strip().split("\n")[0][:20]
+    title = gerar_titulo(first_message, 20)
 
     # 4️⃣ Criar o chat no banco
     chat = new_chat(user_id=user_id, title=title)
@@ -220,6 +220,22 @@ def list_messages_route(chat_id):
     ]), 200
 
 
+# buscar um chat específico do usuário logado
+@app.route("/chat/<int:chat_id>", methods=["GET"])
+@login_required
+def get_chat_route(chat_id):
+    chat = get_chat_by_id_and_user(chat_id, current_user.id)
+
+    if not chat:
+        return jsonify({"error": "Acesso negado"}), 403
+
+    return jsonify({
+        "id": chat.id,
+        "title": chat.title,
+        "created_at": chat.created_at
+    }), 200
+
+
 # rota que retorna o atual usuario logado
 @app.route("/user/me", methods=["GET"])
 @login_required
@@ -230,3 +246,18 @@ def user_me():
         "email": current_user.email
     })
 
+
+
+
+
+#===================== ROTAS DELETE =====================
+
+@app.route("/chat/<int:chat_id>", methods =["DELETE"])
+@login_required
+def delete_chat_route(chat_id):
+    sucess = delete_chat_by_id_and_user(chat_id, current_user.id)
+
+    if not sucess:
+        return jsonify({"error": "Chat não encontrado ou acesso negado"}), 403
+    
+    return jsonify({"message": "Chat excluído com sucesso"}), 200

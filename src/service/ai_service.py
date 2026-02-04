@@ -22,7 +22,7 @@ def generate_response(messages):
             model="gemini-2.5-flash",
             contents=last_message,
             config={
-                "max_output_tokens": 1024,
+                "max_output_tokens": 2048,
                 "temperature": 0.7,
             }
         )

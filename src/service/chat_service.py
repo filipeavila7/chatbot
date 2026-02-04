@@ -16,16 +16,6 @@ def list_chats_by_user(user_id):
     return db_chat
 
 
-def delete_chat(chat_id):
-    db_chat = Chat.query.get(chat_id)
-
-    if not db_chat:
-        return None
-    
-    db.session.delete(db_chat)
-    db.session.commit()
-    return db_chat
-
 
 def get_chat_by_id(chat_id):
     return Chat.query.get(chat_id)
@@ -33,4 +23,33 @@ def get_chat_by_id(chat_id):
 
 def get_chat_by_id_and_user(chat_id, user_id):
     return Chat.query.filter_by(id=chat_id, user_id=user_id).first()
+
+
+
+def delete_chat_by_id_and_user(chat_id, user_id):
+    db_chat = Chat.query.filter_by(id=chat_id, user_id=user_id).first()
+
+    if not db_chat:
+        return False
     
+    db.session.delete(db_chat)
+    db.session.commit()
+    return db_chat
+
+
+def gerar_titulo(texto, limite=20):
+    texto = texto.strip().split("\n")[0]
+
+    if len(texto) <= limite:
+        return texto
+
+    palavras = texto.split(" ")
+    titulo = ""
+
+    for palavra in palavras:
+        # +1 por causa do espaço
+        if len(titulo) + len(palavra) + (1 if titulo else 0) > limite:
+            break
+        titulo += (" " if titulo else "") + palavra
+
+    return titulo + "..."

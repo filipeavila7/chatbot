@@ -38,6 +38,7 @@
 
             <div class="titulo">
                 <a href="">teste</a>
+                <img class="config" id="config" src="static/img/setting.png" alt="">
             </div>
 
             <div class="titulo">
@@ -50,26 +51,50 @@
 
     <section class="chat-sec">
         <div class="bem-vindo" id="bem-vindo">
-            <h1 id="bem-vindo-texto" ></h1>
+            <h1 id="bem-vindo-texto"></h1>
         </div>
 
         <div class="chat-mensagem">
         </div>
 
         <div class="chat-input">
-                <form class="chat-form" id="ChatForm">
-                    <textarea class="chat-textarea" id="message" name="message" rows="1" placeholder="Pergunte alguma coisa"></textarea>
-                    <button type="submit">
-                        <img src="static/img/arrow.png" alt="">
-                    </button>
-                </form>
+            <form class="chat-form" id="ChatForm">
+                <textarea class="chat-textarea" id="message" name="message" rows="1"
+                    placeholder="Pergunte alguma coisa"></textarea>
+                <button type="submit">
+                    <img src="static/img/arrow.png" alt="">
+                </button>
+            </form>
+        </div>
+
+
+
+
+    </section>
+
+
+
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <button style="display: none;" id="fecharModal">Fechar</button  >
+            <h2 id="modalTitulo">titulo: </h2>
+            <p id="modalCriado">data: </p>
+
+            <div class="edit">
+                <img class="icone" src="static/img/pencil.png" alt="">
+                <p>Editar chat</p>
             </div>
 
-        
+
+            <div id="btnExcluir" class="delete">
+                <img class="icone"  src="static/img/delete.png" alt="">
+                <span>Excluir chat</span>
+            </div>
+
             
-        
-    </section>
-    
+        </div>
+    </div>
+
 
 
 

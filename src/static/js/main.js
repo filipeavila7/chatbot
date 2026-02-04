@@ -3,7 +3,9 @@
 // ================== ESTADO GLOBAL ==================
 let currentChatId = null;
 let userName = "";
-
+const modal = document.getElementById("modal")
+const btnFechar = document.getElementById("fecharModal")
+const btnExcluir = document.getElementById("btnExcluir")
 
 
 // ================== ELEMENTOS ==================
@@ -31,14 +33,20 @@ async function carregarChats() {
         // ordenar chats por data de criação (mais recentes primeiro)
         chats.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
-        // limpar lista de chats existente
-        chatContainer.innerHTML = "";
+        // LIMPAR ANTES DE RENDERIZAR
+        chatContainer.innerHTML = ""
+
 
         // percorrer os dados retornados da api para manipulalos, usando uma chave chat em chats
         chats.forEach(chat => {
             // criar a div onde ficara os links(chats), e colocar uma classe para estilizala
             const divTitulo = document.createElement("div");
             divTitulo.classList.add("titulo");
+
+            // criar botão de cofiguração
+            const config = document.createElement("img");
+            config.src = "static/img/setting.png"
+            config.classList.add("config")
 
             // criar os links com o titulo dos dados retornados
             const link = document.createElement("a");
@@ -48,14 +56,23 @@ async function carregarChats() {
 
             // anexar o link à div
             divTitulo.appendChild(link);
+            divTitulo.appendChild(config);
+
             // anexar a div ao container
             chatContainer.appendChild(divTitulo);
 
-            // quando clicar no chat, impede que atualize a pagina, e chmama a função que ira abrir o chat
+            // quando clicar no chat, impede que atualize a pagina, e chmama a função que ira abrir o chat usando o id do chat que veio do get
             divTitulo.addEventListener("click", (evt) => {
                 evt.preventDefault();
                 abrirChat(chat.id);
             });
+
+            // função de abrir modal
+            config.addEventListener("click", (evt) => {
+                evt.stopPropagation()
+                abrirModal(chat.id)
+            })
+
 
 
         });
@@ -64,6 +81,52 @@ async function carregarChats() {
     }
 
 }
+
+// funcao para abrir o modal e mostrar configurações do chat
+function abrirModal(chatid) {
+    // o id do chat é o id atual
+    currentChatId = chatid
+    modal.style.display = "flex"
+
+    // usar a função que carrega os dados do chat (get)
+    carregarInfoChat(chatid)
+
+}
+// fechar o modal
+function fecharModal() {
+    modal.style.display = "none"
+}
+
+
+btnFechar.addEventListener("click", fecharModal)
+
+// fechar clicando fora
+modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+        fecharModal()
+    }
+})
+
+
+
+async function carregarInfoChat(chatid) {
+    try {
+        const res = await fetch(`http://127.0.0.1:5000/chat/${chatid}`)
+
+        if (!res.ok) {
+            console.error("Erro ao buscar dados do chat")
+            return
+        }
+
+        const chat = await res.json()
+
+        document.getElementById("modalTitulo").textContent = "título: " + chat.title
+        document.getElementById("modalCriado").textContent = "Data de criação: " + chat.created_at
+    } catch (err) {
+        console.error(err)
+    }
+}
+
 
 
 // criar função que renderize as mensagens
@@ -156,6 +219,45 @@ function novoChat() {
 }
 
 
+// criar evento para excluir um chat pelo id
+btnExcluir.addEventListener("click", async () => {  
+    // se for diferente que o id do chat, retorna
+    if (!currentChatId) return
+
+    // declara que o id a ser excluido é o mesmo id que esta selecionado
+    const chatIdParaExcluir = currentChatId
+
+    // mensagem de confirmação
+    if (!confirm("Tem certeza que deseja excluir este chat?")) return
+    
+    // consome a rota da api de deletar, usando o metodo delete, usando o id do chat atual
+    try {
+        const res = await fetch(`http://127.0.0.1:5000/chat/${chatIdParaExcluir}`, {
+            method: "DELETE"
+        })
+        // se der erro, retorna uma mensagem de erro
+        if (!res.ok) {
+            console.error("Erro ao excluir chat")
+            return
+        }
+
+        // fecha o modal apos apagar
+        fecharModal()
+
+        // se o chat excluído era o aberto
+        if (currentChatId === chatIdParaExcluir) {
+            currentChatId = null
+            chatBox.innerHTML = ""
+            atualizarBemVindo()
+        }
+        // atualiza a lista de chats
+        carregarChats()
+
+        // captura o erro se der
+    } catch (err) {
+        console.error("Erro ao excluir chat:", err)
+    }
+})
 
 // adcionar evento para criar novo chat
 btnNovo = document.getElementById("novo-chat-btn")
@@ -209,7 +311,7 @@ async function enviarMensagem(event) {
     // ⬇️ ESCONDE O BEM-VINDO IMEDIATAMENTE
     bemVindoDiv.style.display = "none";
 
-    
+
 
     const textarea = document.querySelector(".chat-textarea");
     const message = textarea.value.trim();
@@ -296,6 +398,7 @@ async function enviarMensagem(event) {
 document.addEventListener("DOMContentLoaded", () => {
     carregarChats();
     carregarUsuario();
+
 
     // Adicionar listener para o form de envio de mensagem
     const chatForm = document.querySelector(".chat-form");
