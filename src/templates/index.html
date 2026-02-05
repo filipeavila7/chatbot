@@ -57,12 +57,17 @@
         <div class="chat-mensagem">
         </div>
 
+
         <div class="chat-input">
             <form class="chat-form" id="ChatForm">
                 <textarea class="chat-textarea" id="message" name="message" rows="1"
-                    placeholder="Pergunte alguma coisa"></textarea>
-                <button type="submit">
-                    <img src="static/img/arrow.png" alt="">
+                 required placeholder="Pergunte alguma coisa"></textarea>
+                <button id="send-btn" type="submit">
+                    <img id="send-icon" src="static/img/arrow.png" alt="">
+
+                    <div id="loading-ia" class="loading hidden">
+                        <div class="spinner"></div>
+                    </div>
                 </button>
             </form>
         </div>
@@ -76,7 +81,7 @@
 
     <div class="modal-overlay" id="modal">
         <div class="modal">
-            <button style="display: none;" id="fecharModal">Fechar</button  >
+            <button style="display: none;" id="fecharModal">Fechar</button>
             <h2 id="modalTitulo">titulo: </h2>
             <p id="modalCriado">data: </p>
 
@@ -87,11 +92,11 @@
 
 
             <div id="btnExcluir" class="delete">
-                <img class="icone"  src="static/img/delete.png" alt="">
+                <img class="icone" src="static/img/delete.png" alt="">
                 <span>Excluir chat</span>
             </div>
 
-            
+
         </div>
     </div>
 
@@ -100,8 +105,12 @@
 
 
 
+    <!-- Highlight.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="static/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </body>
 
 </html>

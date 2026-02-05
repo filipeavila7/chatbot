@@ -6,13 +6,37 @@ let userName = "";
 const modal = document.getElementById("modal")
 const btnFechar = document.getElementById("fecharModal")
 const btnExcluir = document.getElementById("btnExcluir")
-
+const sendBtn = document.getElementById("send-btn");
+const sendIcon = document.getElementById("send-icon");
+const loadingIA = document.getElementById("loading-ia");
 
 // ================== ELEMENTOS ==================
 const chatContainer = document.querySelector(".chats-usuario")
 const chatBox = document.querySelector(".chat-mensagem");
 const bemVindoDiv = document.getElementById("bem-vindo");
 const bemVindoTexto = document.getElementById("bem-vindo-texto");
+
+
+function renderMarkdown(texto) {
+    return marked.parse(texto);
+}
+
+
+function setSendLoading(loading) {
+    if (loading) {
+        sendBtn.disabled = true;
+        
+
+        sendIcon.classList.add("hidden");
+        loadingIA.classList.remove("hidden");
+    } else {
+        sendBtn.disabled = false;
+        
+
+        loadingIA.classList.add("hidden");
+        sendIcon.classList.remove("hidden");
+    }
+}
 
 
 // consumir a api e usar a rota get para listar os chats do usuario
@@ -131,29 +155,30 @@ async function carregarInfoChat(chatid) {
 
 // criar função que renderize as mensagens
 function renderMensagem(role, content) {
-    // criar elemento
     const div = document.createElement("div");
 
-
-    // caso for user, usa a estilização para ele, caso contrario, gera para a ia
     if (role === "user") {
         div.classList.add("msg-user");
+
+        // usuário = texto puro (segurança)
+        const p = document.createElement("p");
+        p.textContent = content;
+        div.appendChild(p);
+
     } else {
         div.classList.add("msg-ia");
 
+        // IA = markdown → HTML
+        div.innerHTML = renderMarkdown(content);
+
+        div.querySelectorAll("pre code").forEach(block => {
+            hljs.highlightElement(block);
+        });
+
     }
 
-    // criar um elemento p para guardar as mensagens
-    const p = document.createElement("p");
-    // declarae que ele tera o valor vindo do get
-    p.textContent = content;
-
-    // adcionar no html
-    div.appendChild(p);
     chatBox.appendChild(div);
 }
-
-
 
 
 // criar função para abrir os chats
@@ -220,7 +245,7 @@ function novoChat() {
 
 
 // criar evento para excluir um chat pelo id
-btnExcluir.addEventListener("click", async () => {  
+btnExcluir.addEventListener("click", async () => {
     // se for diferente que o id do chat, retorna
     if (!currentChatId) return
 
@@ -229,7 +254,7 @@ btnExcluir.addEventListener("click", async () => {
 
     // mensagem de confirmação
     if (!confirm("Tem certeza que deseja excluir este chat?")) return
-    
+
     // consome a rota da api de deletar, usando o metodo delete, usando o id do chat atual
     try {
         const res = await fetch(`http://127.0.0.1:5000/chat/${chatIdParaExcluir}`, {
@@ -317,6 +342,13 @@ async function enviarMensagem(event) {
     const message = textarea.value.trim();
     if (!message) return;
 
+
+    // 🔥 LIMPA IMEDIATAMENTE
+    textarea.value = "";
+
+    // 🔄 ATIVA LOADING
+    setSendLoading(true);
+
     try {
         // ================= NOVO CHAT =================
         if (currentChatId === null) {
@@ -342,8 +374,14 @@ async function enviarMensagem(event) {
 
             const data = await res.json();
 
+
+
             // 3️⃣ Salva o id do novo chat
             currentChatId = data.chat_id;
+
+            // ⛔ DESLIGA LOADING
+            setSendLoading(false);
+
 
             // 4️⃣ Renderiza resposta da IA
             renderMensagem("assistant", data.ai_response);
@@ -352,8 +390,8 @@ async function enviarMensagem(event) {
             carregarChats();
             atualizarBemVindo();
 
-            textarea.value = "";
-            scrollToBottom();
+
+            
             return; // ⛔ não continua para /chat/send
         }
 
@@ -361,7 +399,7 @@ async function enviarMensagem(event) {
 
         // 1️⃣ Renderiza msg do usuário
         renderMensagem("user", message);
-        scrollToBottom();
+        
 
         // 2️⃣ Envia mensagem
         const res = await fetch("http://127.0.0.1:5000/chat/send", {
@@ -381,14 +419,17 @@ async function enviarMensagem(event) {
 
         const data = await res.json();
 
+        setSendLoading(false);
+
         // 3️⃣ Renderiza resposta da IA
         renderMensagem("assistant", data.response);
 
         textarea.value = "";
-        scrollToBottom();
+        
 
     } catch (err) {
         console.error("Erro ao enviar mensagem:", err);
+         setSendLoading(false);
     }
 }
 

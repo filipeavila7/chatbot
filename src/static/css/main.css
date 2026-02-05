@@ -175,29 +175,72 @@ body{
     
 
 }
-
-.msg-ia{
+.msg-ia,
+.msg-user {
   max-width: 80%;
-  padding: 12px 16px;
+  padding: 20px;
   border-radius: 14px;
-  line-height: 1.4;
+  line-height: 1.6;
   word-wrap: break-word;
-  align-self: flex-start;
-  background-color: #FEFEDF;
   font-size: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.msg-user{
-  max-width: 80%;
-  padding: 12px 16px;
-  border-radius: 14px;
-  line-height: 1.4;
-  word-wrap: break-word;
+/* cores */
+.msg-ia {
+  align-self: flex-start;
+  background-color: #FEFEDF;
+}
+
+.msg-user {
   align-self: flex-end;
   background-color: #fbdaff;
-  font-size: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== Markdown dentro do balão ===== */
+
+/* parágrafos */
+.msg-ia p {
+  margin: 6px 0;
+}
+
+/* listas */
+.msg-ia ul,
+.msg-ia ol {
+  margin: 8px 0;
+  padding-left: 20px;        /* controla o recuo */
+  list-style-position: inside; /* 🔥 ISSO resolve o vazamento */
+}
+
+/* itens */
+.msg-ia li {
+  margin-bottom: 6px;
+}
+
+/* sublistas */
+.msg-ia li ul,
+.msg-ia li ol {
+  margin-top: 6px;
+}
+
+/* código */
+.msg-ia pre {
+  background: #0d1117; /* VS Code dark */
+  padding: 14px;
+  border-radius: 10px;
+  overflow-x: auto;
+  margin: 12px 0;
+}
+
+.msg-ia code {
+  font-family: "Fira Code", Consolas, monospace;
+  font-size: 15px;
+}
+
+/* remove fundo duplicado */
+.msg-ia pre code {
+  background: transparent;
+  padding: 0;
 }
 
 .config{
@@ -280,4 +323,33 @@ body{
 
 #modalCriado{
     font-size: 19px;
+}
+
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 20px;
+}
+
+.hidden {
+  display: none;
+  
+}
+
+/* bolinha girando */
+.spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid rgba(0, 0, 0, 0.2);
+  border-top-color: #333;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
