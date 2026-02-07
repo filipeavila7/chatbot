@@ -53,3 +53,20 @@ def gerar_titulo(texto, limite=20):
         titulo += (" " if titulo else "") + palavra
 
     return titulo + "..."
+
+def update_chat_by_id_and_user(chat_id, user_id, new_title):
+    db_chat = Chat.query.filter_by(
+        id=chat_id,
+        user_id=user_id
+    ).first()
+
+    if not db_chat:
+        return None
+
+    # gera o título já com limite e "..."
+    db_chat.title = gerar_titulo(new_title)
+
+    db.session.commit()
+
+    return db_chat.title
+

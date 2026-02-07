@@ -9,6 +9,7 @@ const btnExcluir = document.getElementById("btnExcluir")
 const sendBtn = document.getElementById("send-btn");
 const sendIcon = document.getElementById("send-icon");
 const loadingIA = document.getElementById("loading-ia");
+const  btnEdit = document.getElementsByTagName("btnEdit")
 
 // ================== ELEMENTOS ==================
 const chatContainer = document.querySelector(".chats-usuario")

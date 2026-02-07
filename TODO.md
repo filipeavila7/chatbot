@@ -1,6 +1,0 @@
-- [x] Declarar bemVindoDiv e bemVindoTexto no topo do main.js
-- [x] Ajustar lógica de atualizarBemVindo() para mostrar mensagem quando currentChatId === null
-- [x] Remover mensagens de teste do index.html
-- [x] Adicionar verificação se userName não está vazio em atualizarBemVindo()
-- [x] Chamar atualizarBemVindo() em novoChat()
-- [x] Chamar atualizarBemVindo() no início de abrirChat() para esconder mensagem ao abrir chat existente

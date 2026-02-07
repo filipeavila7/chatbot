@@ -60,8 +60,8 @@
 
         <div class="chat-input">
             <form class="chat-form" id="ChatForm">
-                <textarea class="chat-textarea" id="message" name="message" rows="1"
-                 required placeholder="Pergunte alguma coisa"></textarea>
+                <textarea class="chat-textarea" id="message" name="message" rows="1" required
+                    placeholder="Pergunte alguma coisa"></textarea>
                 <button id="send-btn" type="submit">
                     <img id="send-icon" src="static/img/arrow.png" alt="">
 
@@ -85,11 +85,11 @@
             <h2 id="modalTitulo">titulo: </h2>
             <p id="modalCriado">data: </p>
 
-            <div class="edit">
+            <div id="btnEdit" class="edit">
                 <img class="icone" src="static/img/pencil.png" alt="">
                 <p>Editar chat</p>
             </div>
-
+            
 
             <div id="btnExcluir" class="delete">
                 <img class="icone" src="static/img/delete.png" alt="">
@@ -97,6 +97,17 @@
             </div>
 
 
+        </div>
+    </div>
+
+
+    <div class="modal-overlay" style="display: fle;">
+        <div class="modal-editar">
+            <h2>Editar título</h2>
+            <form class="modal-form">
+                <input type="text" required name="new_title" id="new_title">
+                <button type="submit">Salvar</button>
+            </form>
         </div>
     </div>
 

@@ -3,7 +3,7 @@ from src import app
 from src.service.messages_service import new_message, list_last_messages, list_messages_by_chat
 from src.service.ai_service import generate_response
 from src.service.user_service import create_user, list_user, list_user_email, get_user_by_id
-from src.service.chat_service import new_chat, get_chat_by_id, list_chats_by_user, get_chat_by_id_and_user ,delete_chat_by_id_and_user,gerar_titulo
+from src.service.chat_service import new_chat, get_chat_by_id, list_chats_by_user, get_chat_by_id_and_user ,delete_chat_by_id_and_user,gerar_titulo, update_chat_by_id_and_user
 from src import login_manager
 from flask_login import login_user, login_required, current_user, logout_user
 
@@ -261,3 +261,28 @@ def delete_chat_route(chat_id):
         return jsonify({"error": "Chat não encontrado ou acesso negado"}), 403
     
     return jsonify({"message": "Chat excluído com sucesso"}), 200
+
+
+
+
+#========================== ROTAS PUT ======================
+
+@app.route("/chat/<int:chat_id>", methods =["PUT"])
+@login_required
+def edit_chat_route(chat_id):
+    # receber dados do front
+    data = request.json()
+    new_title = data.get("new_title")
+
+    if not new_title:
+        return jsonify({"error": "Texto obrigatório"}), 400
+    
+    # usar a função de editar
+    updated_title = update_chat_by_id_and_user(chat_id, current_user.id, new_title)
+
+    if not updated_title:
+        return jsonify({"error": "Chat não encontrado ou acesso negado"}), 403
+    
+    
+    return jsonify({"title": updated_title}), 200
+
